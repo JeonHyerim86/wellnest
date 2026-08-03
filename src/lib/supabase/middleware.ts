@@ -37,10 +37,14 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // getUser() 호출 사이에 다른 코드를 넣지 말 것 — 세션 갱신 타이밍이 어긋나 무작위 로그아웃이 발생한다.
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // 이 호출 사이에 다른 코드를 넣지 말 것 — 세션 갱신 타이밍이 어긋나 무작위 로그아웃이 발생한다.
+  //
+  // getUser() 는 매 요청 Supabase auth 서버로 HTTP 왕복을 한 번씩 해서 탭 이동이 느려졌다.
+  // getClaims() 는 ES256 서명을 JWKS 공개키로 로컬 검증하고(JWKS 는 전역 캐시),
+  // 만료된 토큰은 내부 getSession() 이 리프레시하므로 쿠키 갱신 동작은 그대로다.
+  // 자세한 배경은 lib/auth.ts 의 requireUser() 주석 참고.
+  const { data } = await supabase.auth.getClaims();
+  const user = data?.claims ?? null;
 
   const { pathname } = request.nextUrl;
 

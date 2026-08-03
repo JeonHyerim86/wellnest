@@ -11,7 +11,7 @@ export default async function ProfilePage() {
   const [profileResult, routineCount, doneCount, logCount] = await Promise.all([
     supabase
       .from("profiles")
-      .select("display_name, avatar_url, email")
+      .select("display_name, avatar_url, email, created_at")
       .eq("id", user.id)
       .maybeSingle(),
     supabase
@@ -44,7 +44,8 @@ export default async function ProfilePage() {
       avatar_url: (user.user_metadata?.avatar_url as string | undefined) ?? null,
     };
     await supabase.from("profiles").upsert(fallback);
-    profile = fallback;
+    // 방금 만든 행이므로 가입일은 오늘이다.
+    profile = { ...fallback, created_at: new Date().toISOString() };
   }
 
   const displayName =
@@ -56,10 +57,13 @@ export default async function ProfilePage() {
     { label: "남긴 기록", value: logCount.count },
   ];
 
-  // 가입일로부터 며칠째인지 (가입 당일이 1일째)
+  // 가입일로부터 며칠째인지 (가입 당일이 1일째).
+  // auth.users.created_at 은 JWT 클레임에 없으므로, 가입 시 트리거가 함께 만든
+  // profiles.created_at 을 쓴다. 두 값은 같은 시점이다.
   const joinedDays =
     Math.floor(
-      (Date.now() - new Date(user.created_at).getTime()) / (24 * 60 * 60 * 1000),
+      (Date.now() - new Date(profile.created_at).getTime()) /
+        (24 * 60 * 60 * 1000),
     ) + 1;
 
   return (
