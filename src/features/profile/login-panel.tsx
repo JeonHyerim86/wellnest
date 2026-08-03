@@ -32,6 +32,11 @@ export function LoginPanel() {
         provider: "google",
         options: {
           redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+          // 구글은 브라우저에 세션이 있고 이미 권한을 승인한 앱이면
+          // 계정 선택·동의 화면을 건너뛰고 자동 승인한다.
+          // 그러면 계정을 여러 개 쓰는 사용자가 다른 계정을 고를 수 없으므로
+          // 매번 계정 선택 화면을 띄우도록 강제한다.
+          queryParams: { prompt: "select_account" },
         },
       });
 
