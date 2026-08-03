@@ -1,26 +1,192 @@
+/* 웹폰트(Nunito · Pretendard · Material Symbols Rounded)는 app/layout.tsx 의
+   <link> 로 로드한다. Tailwind v4 가 @import "tailwindcss" 를 인라인하면서
+   뒤따르는 @import url() 이 무효화되기 때문이다. */
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* =====================================================================
+ * Wellnest 디자인 토큰
+ * design/wellnest.pen 의 컬러 파운데이션 / 타이포그래피와 1:1 대응한다.
+ * .pen 변수명 → Tailwind 토큰 매핑:
+ *   primary #7CAA6E → sage-500   ·  primary-dark #5E8C55 → sage-600
+ *   primary-soft #E4EEDC → sage-100
+ *   bg-page #F1EFE8 → cream-50   ·  surface-alt #F5F3EC → cream-100
+ *   border #E8E5DC → cream-200
+ *   text-primary #2C2E2A → ink-800 · secondary #8B8F86 → ink-500
+ *   text-tertiary #B4B7AE → ink-400
+ * 토큰 이름은 플랫폼 중립적으로 지어 추후 React Native 이식이 쉽도록 한다.
+ * ===================================================================== */
+
+@theme {
+  /* ---------- Color · Primary (Sage) ---------- */
+  --color-sage-50: #eff5ea;
+  --color-sage-100: #e4eedc; /* primary-soft */
+  --color-sage-200: #d3e3c8;
+  --color-sage-300: #b9d2aa;
+  --color-sage-400: #9bbe8b;
+  --color-sage-500: #7caa6e; /* primary */
+  --color-sage-600: #5e8c55; /* primary-dark */
+  --color-sage-700: #4c7345;
+  --color-sage-800: #3b5a36;
+  --color-sage-900: #2b4127;
+
+  /* ---------- Color · Cream (Surface) ---------- */
+  --color-cream-50: #f1efe8; /* bg-page */
+  --color-cream-100: #f5f3ec; /* surface-alt */
+  --color-cream-200: #e8e5dc; /* border */
+  --color-cream-300: #dcd8cb;
+
+  /* ---------- Color · Neutral (Warm Gray) ---------- */
+  --color-ink-50: #f7f6f2;
+  --color-ink-100: #efede6;
+  --color-ink-200: #e0ded6;
+  --color-ink-300: #c8cbc2;
+  --color-ink-400: #b4b7ae; /* text-tertiary */
+  --color-ink-500: #8b8f86; /* text-secondary */
+  --color-ink-600: #6d746b;
+  --color-ink-700: #4a4d47;
+  --color-ink-800: #2c2e2a; /* text-primary */
+  --color-ink-900: #1d1f1c;
+
+  /* ---------- Color · Semantic ---------- */
+  --color-success: #5e8c55;
+  --color-success-bg: #e4eedc;
+  --color-warning: #e9d267;
+  --color-warning-bg: #fbf4d8;
+  --color-danger: #d98c7a;
+  --color-danger-bg: #f7ece8;
+  --color-info: #4e7c99;
+  --color-info-bg: #dceaf5;
+
+  /* ---------- Color · Accent (기록 타입 구분) ---------- */
+  --color-meal: #b4823e; /* 식단 — 앰버 */
+  --color-meal-bg: #fbebd0;
+  --color-workout: #5e8c55; /* 운동 — 세이지 */
+  --color-workout-bg: #e4eedc;
+
+  /* ---------- Color · Mood Scale ---------- */
+  --color-mood-1: #e9d267;
+  --color-mood-2: #afcb85;
+  --color-mood-3: #7cb35f;
+  --color-mood-4: #4c8a47;
+  --color-mood-5: #6d746b;
+
+  /* ---------- Typography ---------- */
+  --font-sans:
+    var(--font-nunito), "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", sans-serif;
+
+  --text-display: 1.625rem; /* 26 */
+  --text-display--line-height: 2.125rem; /* 34 */
+  --text-display--font-weight: 800;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-title: 1.4375rem; /* 23 */
+  --text-title--line-height: 1.9375rem; /* 31 */
+  --text-title--font-weight: 800;
+  --text-title--letter-spacing: -0.02em;
+
+  --text-headline: 1.0625rem; /* 17 */
+  --text-headline--line-height: 1.5rem; /* 24 */
+  --text-headline--font-weight: 800;
+  --text-headline--letter-spacing: -0.01em;
+
+  --text-body: 0.9375rem; /* 15 */
+  --text-body--line-height: 1.4375rem; /* 23 */
+  --text-body--font-weight: 700;
+
+  --text-label: 0.875rem; /* 14 */
+  --text-label--line-height: 1.25rem; /* 20 */
+  --text-label--font-weight: 700;
+
+  --text-subtitle: 1rem; /* 16 — AppBar 제목 */
+  --text-subtitle--line-height: 1.4375rem; /* 23 */
+  --text-subtitle--font-weight: 800;
+  --text-subtitle--letter-spacing: -0.01em;
+
+  --text-field: 0.875rem; /* 14 — 입력값 */
+  --text-field--line-height: 1.3125rem; /* 21 */
+  --text-field--font-weight: 600;
+
+  --text-chip: 0.8125rem; /* 13 — 칩 · 폼 레이블 */
+  --text-chip--line-height: 1.1875rem; /* 19 */
+  --text-chip--font-weight: 700;
+
+  --text-caption: 0.75rem; /* 12 */
+  --text-caption--line-height: 1.125rem; /* 18 */
+  --text-caption--font-weight: 600;
+
+  --text-micro: 0.6875rem; /* 11 — 메타 · 반복 요일 */
+  --text-micro--line-height: 1rem; /* 16 */
+  --text-micro--font-weight: 600;
+
+  --text-overline: 0.625rem; /* 10 */
+  --text-overline--line-height: 0.9375rem; /* 15 */
+  --text-overline--font-weight: 700;
+  --text-overline--letter-spacing: 0.02em;
+
+  /* ---------- Radius ---------- */
+  --radius-card: 1.25rem; /* 20 */
+  --radius-sheet: 1.625rem; /* 26 */
+  --radius-field: 0.875rem; /* 14 */
+  --radius-tile: 1.125rem; /* 18 */
+
+  /* ---------- Shadow ---------- */
+  --shadow-card: 0 2px 8px rgb(44 46 42 / 0.04);
+  --shadow-sheet: 0 -6px 24px rgb(44 46 42 / 0.2);
+  --shadow-fab: 0 6px 16px rgb(94 140 85 / 0.27);
+  --shadow-tab: 0 6px 20px rgb(94 140 85 / 0.13);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: var(--color-cream-50);
+    color: var(--color-ink-800);
+    font-family: var(--font-sans);
+    min-height: 100dvh;
+  }
+
+  input,
+  textarea,
+  select {
+    font-family: inherit;
+  }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Material Symbols 리거처 렌더링 (아이콘 이름을 글리프로 치환) */
+  .ms-icon {
+    font-family: "Material Symbols Rounded";
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* 모바일 퍼스트: 앱 셸을 화면 중앙에 고정 폭으로 배치 */
+  .app-shell {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 30rem; /* 480px */
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
