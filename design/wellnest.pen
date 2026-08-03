@@ -5520,6 +5520,229 @@
         },
         {
           "type": "frame",
+          "id": "QEpU8",
+          "name": "Priority Badge",
+          "width": "fill_container",
+          "fill": "$surface",
+          "cornerRadius": "$radius-card",
+          "layout": "vertical",
+          "gap": 18,
+          "padding": 26,
+          "children": [
+            {
+              "type": "frame",
+              "id": "E0fEH0",
+              "name": "H",
+              "width": "fill_container",
+              "gap": 10,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ead5V",
+                  "name": "t",
+                  "fill": "$text-primary",
+                  "content": "Priority Badge",
+                  "fontFamily": "$font-head",
+                  "fontSize": 18,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "zNW4V",
+                  "name": "s",
+                  "fill": "$text-tertiary",
+                  "content": "할 일 우선순위 3단계 · 보통도 항상 표시한다",
+                  "fontFamily": "$font-body",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "d86qPz",
+              "name": "Row",
+              "width": "fill_container",
+              "gap": 18,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Fmc4v",
+                  "name": "높음",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "J4JSW",
+                      "name": "Badge",
+                      "fill": "$danger-soft",
+                      "cornerRadius": 999,
+                      "gap": 3,
+                      "padding": [
+                        3,
+                        9,
+                        3,
+                        7
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "CF6FP",
+                          "name": "i",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "priority_high",
+                          "library": "Material Symbols Rounded",
+                          "weight": 700,
+                          "fill": "$danger"
+                        },
+                        {
+                          "type": "text",
+                          "id": "t19xg",
+                          "name": "l",
+                          "fill": "$danger",
+                          "content": "높음",
+                          "fontFamily": "$font-head",
+                          "fontSize": 10,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "y61joR",
+                      "name": "cap",
+                      "fill": "$text-tertiary",
+                      "content": "priority = high",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "s70R7n",
+                  "name": "보통",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "EC4R7",
+                      "name": "Badge",
+                      "fill": "$surface-alt",
+                      "cornerRadius": 999,
+                      "gap": 3,
+                      "padding": [
+                        3,
+                        9,
+                        3,
+                        7
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "PCTK4",
+                          "name": "i",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "remove",
+                          "library": "Material Symbols Rounded",
+                          "weight": 700,
+                          "fill": "$text-secondary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "iQiFw",
+                          "name": "l",
+                          "fill": "$text-secondary",
+                          "content": "보통",
+                          "fontFamily": "$font-head",
+                          "fontSize": 10,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "IMT7g",
+                      "name": "cap",
+                      "fill": "$text-tertiary",
+                      "content": "priority = normal",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "odnex",
+                  "name": "낮음",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "eNRFM",
+                      "name": "Badge",
+                      "fill": "$surface-alt",
+                      "cornerRadius": 999,
+                      "gap": 3,
+                      "padding": [
+                        3,
+                        9,
+                        3,
+                        7
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "ETwBE",
+                          "name": "i",
+                          "width": 12,
+                          "height": 12,
+                          "icon": "keyboard_arrow_down",
+                          "library": "Material Symbols Rounded",
+                          "weight": 700,
+                          "fill": "$text-tertiary"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ADGx1",
+                          "name": "l",
+                          "fill": "$text-tertiary",
+                          "content": "낮음",
+                          "fontFamily": "$font-head",
+                          "fontSize": 10,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "P5aDT",
+                      "name": "cap",
+                      "fill": "$text-tertiary",
+                      "content": "priority = low",
+                      "fontFamily": "$font-body",
+                      "fontSize": 11,
+                      "fontWeight": "700"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
           "id": "ynOxz",
           "name": "Selection",
           "width": "fill_container",
