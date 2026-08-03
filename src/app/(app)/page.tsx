@@ -6,6 +6,7 @@ import { EmptyState, ErrorState } from "@/components/ui/feedback";
 import { TodayRoutines } from "@/features/routines/today-routines";
 import { TodayTodos } from "@/features/todos/today-todos";
 import { LogCard } from "@/features/logs/log-card";
+import { resolveDisplayName } from "@/features/profile/defaults";
 import { requireUser } from "@/lib/auth";
 import { formatFullDate, todayInSeoul, todayWeekdayInSeoul } from "@/lib/date";
 import type { Routine, Todo, WellnessLog } from "@/lib/supabase/types";
@@ -46,11 +47,12 @@ export default async function TodayPage() {
     ]);
 
   const profile = profileResult.data;
-  const displayName =
-    profile?.display_name ?? user.email?.split("@")[0] ?? "회원";
+  // 이름 규칙은 features/profile/defaults 에 한 곳으로 모아 두었다.
+  // 프로필 화면도 같은 함수를 쓰므로 두 화면의 이름이 갈릴 수 없다.
+  const displayName = resolveDisplayName(profile?.display_name, user);
   // 프로필 사진의 출처는 profiles.avatar_url 하나뿐이다.
-  // 구글 메타데이터로 폴백하면 사진 삭제 후에도 이 화면에만 구글 사진이 남아
-  // 프로필 화면과 다르게 보인다. (최초 가입 시 구글 사진은 DB 트리거가 넣어준다)
+  // 구글 메타데이터로 폴백하면 사진을 지워도 이 화면에만 구글 사진이 남는다.
+  // 값이 없으면 앱 기본 이미지(Avatar 의 person 아이콘)가 나온다.
   const avatarUrl = profile?.avatar_url ?? null;
 
   // 오늘 요일에 해당하는 루틴만 남긴다 (빈 배열 = 매일)

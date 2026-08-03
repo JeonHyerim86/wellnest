@@ -1,5 +1,6 @@
 import { AppBar } from "@/components/ui/app-bar";
 import { Card } from "@/components/ui/card";
+import { resolveDisplayName } from "@/features/profile/defaults";
 import { ProfilePanel } from "@/features/profile/profile-panel";
 import { requireUser } from "@/lib/auth";
 
@@ -30,26 +31,14 @@ export default async function ProfilePage() {
       .eq("user_id", user.id),
   ]);
 
-  let profile = profileResult.data;
+  const profile = profileResult.data;
 
-  // E1: 트리거가 실패해 프로필 행이 없으면 세션 정보로 보정한다.
-  if (!profile) {
-    const fallback = {
-      id: user.id,
-      email: user.email ?? null,
-      display_name:
-        (user.user_metadata?.full_name as string | undefined) ??
-        user.email?.split("@")[0] ??
-        null,
-      avatar_url: (user.user_metadata?.avatar_url as string | undefined) ?? null,
-    };
-    await supabase.from("profiles").upsert(fallback);
-    // 방금 만든 행이므로 가입일은 오늘이다.
-    profile = { ...fallback, created_at: new Date().toISOString() };
-  }
-
-  const displayName =
-    profile.display_name ?? user.email?.split("@")[0] ?? "회원";
+  // E1: 행이 없어도 화면을 그리는 데 문제는 없다. 이름은 구글 메타데이터로 계산하고,
+  // 사진은 앱 기본 이미지가 나온다. 행 생성은 로그인 콜백(ensureProfile)이 담당한다.
+  //
+  // 예전에는 여기서 행을 직접 만들면서 구글 사진까지 넣었다. 그래서 프로필 탭을
+  // 한 번 들어갔다 오면 오늘 화면의 이름과 사진이 바뀌어 있었다. 읽기 화면은 쓰지 않는다.
+  const displayName = resolveDisplayName(profile?.display_name, user);
 
   const stats = [
     { label: "활성 루틴", value: routineCount.count },
@@ -60,10 +49,10 @@ export default async function ProfilePage() {
   // 가입일로부터 며칠째인지 (가입 당일이 1일째).
   // auth.users.created_at 은 JWT 클레임에 없으므로, 가입 시 트리거가 함께 만든
   // profiles.created_at 을 쓴다. 두 값은 같은 시점이다.
+  const joinedSince = profile?.created_at ?? new Date().toISOString();
   const joinedDays =
     Math.floor(
-      (Date.now() - new Date(profile.created_at).getTime()) /
-        (24 * 60 * 60 * 1000),
+      (Date.now() - new Date(joinedSince).getTime()) / (24 * 60 * 60 * 1000),
     ) + 1;
 
   return (
@@ -72,8 +61,8 @@ export default async function ProfilePage() {
       <main className="app-shell flex flex-col gap-4 px-4 pt-4">
         <ProfilePanel
           displayName={displayName}
-          email={profile.email ?? user.email ?? ""}
-          avatarUrl={profile.avatar_url}
+          email={profile?.email ?? user.email ?? ""}
+          avatarUrl={profile?.avatar_url ?? null}
           joinedDays={joinedDays}
         />
 
