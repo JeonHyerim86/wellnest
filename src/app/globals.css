@@ -63,6 +63,12 @@
   --color-workout: #5e8c55; /* 운동 — 세이지 */
   --color-workout-bg: #e4eedc;
 
+  /* ---------- Color · Skeleton (로딩 골격) ---------- */
+  /* .pen 의 skeleton / skeleton-strong. cream-50 배경과 흰 카드 위 모두에서
+     읽히도록 border(#E8E5DC)보다 살짝 진하게 잡았다. */
+  --color-skeleton: #e2dfd4;
+  --color-skeleton-strong: #d6d2c4;
+
   /* ---------- Color · Mood Scale ---------- */
   --color-mood-1: #e9d267;
   --color-mood-2: #afcb85;
@@ -135,6 +141,20 @@
   --shadow-sheet: 0 -6px 24px rgb(44 46 42 / 0.2);
   --shadow-fab: 0 6px 16px rgb(94 140 85 / 0.27);
   --shadow-tab: 0 6px 20px rgb(94 140 85 / 0.13);
+
+  /* ---------- Animation ---------- */
+  /* 스켈레톤 펄스 — .pen Skeleton 규격(1 → 0.45, 1.6s) */
+  --animate-skeleton: skeleton 1.6s ease-in-out infinite;
+
+  @keyframes skeleton {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.45;
+    }
+  }
 }
 
 /* ---------- Base ---------- */
@@ -158,6 +178,17 @@
 
   button {
     -webkit-tap-highlight-color: transparent;
+  }
+
+  /* 모션을 줄이도록 설정한 사용자에게는 스켈레톤 펄스를 멈춘다. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 
   /* Material Symbols 리거처 렌더링 (아이콘 이름을 글리프로 치환) */
