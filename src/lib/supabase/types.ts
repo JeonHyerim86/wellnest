@@ -4,14 +4,6 @@
  * (supabase gen types 산출물과 동일한 형태로 손수 작성)
  */
 
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[];
-
 export type LogType = "meal" | "workout";
 export type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 export type Priority = "low" | "normal" | "high";
@@ -195,7 +187,6 @@ export type Database = {
 };
 
 /** 화면에서 쓰기 편한 Row 별칭 */
-export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 export type Routine = Database["public"]["Tables"]["routines"]["Row"];
 export type Todo = Database["public"]["Tables"]["todos"]["Row"];
 export type WellnessLog = Database["public"]["Tables"]["logs"]["Row"];

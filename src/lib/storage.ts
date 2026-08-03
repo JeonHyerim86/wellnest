@@ -2,12 +2,19 @@
 
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024; // 5MB
 
-export const ALLOWED_IMAGE_TYPES = [
+const ALLOWED_IMAGE_TYPES = [
   "image/jpeg",
   "image/png",
   "image/webp",
   "image/heic",
 ] as const;
+
+/**
+ * Supabase Storage 공개 객체 경로 접두사.
+ * 배포 환경별로 달라지는 값이 아니라 Supabase API 규약이므로 환경변수가 아닌
+ * 상수로 둔다. 호스트는 NEXT_PUBLIC_SUPABASE_URL 에서 온다.
+ */
+const PUBLIC_OBJECT_PREFIX = "/storage/v1/object/public";
 
 export const AVATAR_BUCKET = "avatars";
 export const LOG_IMAGE_BUCKET = "log-images";
@@ -82,7 +89,7 @@ export function objectPathFromPublicUrl(
     }
   }
 
-  const marker = `/storage/v1/object/public/${bucket}/`;
+  const marker = `${PUBLIC_OBJECT_PREFIX}/${bucket}/`;
   if (!url.pathname.startsWith(marker)) return null;
 
   try {

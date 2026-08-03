@@ -50,36 +50,3 @@ export function ErrorState({
   );
 }
 
-export function Skeleton({ className }: { className?: string }) {
-  return (
-    <div
-      aria-hidden
-      className={cn("animate-pulse rounded-field bg-cream-200", className)}
-    />
-  );
-}
-
-export function ProgressBar({
-  value,
-  className,
-}: {
-  /** 0 ~ 100 */
-  value: number;
-  className?: string;
-}) {
-  const clamped = Math.max(0, Math.min(100, Math.round(value)));
-  return (
-    <div
-      role="progressbar"
-      aria-valuenow={clamped}
-      aria-valuemin={0}
-      aria-valuemax={100}
-      className={cn("h-2 w-full overflow-hidden rounded-full bg-cream-200", className)}
-    >
-      <div
-        style={{ width: `${clamped}%` }}
-        className="h-full rounded-full bg-sage-500 transition-[width] duration-300"
-      />
-    </div>
-  );
-}
