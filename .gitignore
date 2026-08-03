@@ -35,6 +35,10 @@ yarn-error.log*
 # 실제 키가 없는 템플릿은 커밋한다 (실행에 필요한 변수 문서 역할)
 !.env.example
 
+# supabase CLI 로컬 상태 (링크된 프로젝트 ref, 버전 캐시 등)
+# 머신마다 다른 값이라 저장소에 두지 않는다
+supabase/.temp/
+
 # vercel
 .vercel
 
